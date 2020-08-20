@@ -2,12 +2,10 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
-
 
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -36,7 +34,7 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':developmenttools')
-    implementation 'com.android.support:multidex:1.0.2'  // 多dex配置
+    implementation 'com.android.support:multidex:1.0.3'  // 多dex配置
 }

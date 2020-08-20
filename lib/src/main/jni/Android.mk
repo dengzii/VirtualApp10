@@ -1,6 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 MAIN_LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
+
 LOCAL_MODULE := va++
 
 LOCAL_CFLAGS := -Wno-error=format-security -fpermissive -DLOG_TAG=\"VA++\"
