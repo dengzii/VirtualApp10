@@ -92,7 +92,7 @@ X 4790  ldr r*,[pc,#*]    */
 #define T1$ldr_rt_$rn_im$(rt, rn, im) /* ldr rt, [rn, #im] */ \
     (0xf850 | ((im < 0 ? 0 : 1) << 7) | (rn))
 #define T2$ldr_rt_$rn_im$(rt, rn, im) /* ldr rt, [rn, #im] */ \
-    (((rt) << 12) | abs(im))
+    (((rt) << 12) | im)
 
 #define T1$mrs_rd_apsr(rd) /* mrs rd, apsr */ \
     (0xf3ef)
@@ -123,7 +123,7 @@ static inline bool T$pcrel$b(uint16_t ic) {
 }
 
 static inline bool T2$pcrel$b(uint16_t *ic) {
-    return (ic[0] & 0xf800) == 0xf000 && ((ic[1] & 0xd000) == 0x9000 || (ic[1] & 0xd000) == 0x8000 && (ic[0] & 0x0380) != 0x0380);
+    return false;//(ic[0] & 0xf800) == 0xf000 && ((ic[1] & 0xd000) == 0x9000 || (ic[1] & 0xd000) == 0x8000 && (ic[0] & 0x0380) != 0x0380);
 }
 
 static inline bool T$pcrel$bl(uint16_t *ic) {
@@ -462,7 +462,7 @@ printf("SubstrateHookFunctionThumb\n");
             } exts = {backup[offset+1]};
 
             buffer[start+0] = T1$ldr_rt_$rn_im$(exts.rt, A$pc, T$Label(start+0, end-2));
-            buffer[start+1] = T2$ldr_rt_$rn_im$(exts.rt, A$pc, T$Label(start+0, end-2));
+            //buffer[start+1] = T2$ldr_rt_$rn_im$(exts.rt, A$pc, T$Label(start+0, end-2));
 
             buffer[start+2] = T1$ldr_rt_$rn_im$(exts.rt, exts.rt, 0);
             buffer[start+3] = T2$ldr_rt_$rn_im$(exts.rt, exts.rt, 0);
@@ -646,7 +646,7 @@ printf("SubstrateHookFunctionARM\n");
             if (guard)
                 buffer[start++] = A$stmdb_sp$_$rs$((1 << copy.rn));
 
-            buffer[start+0] = A$ldr_rd_$rn_im$(copy.rn, A$pc, (end-1 - (start+0)) * 4 - 8);
+            //buffer[start+0] = A$ldr_rd_$rn_im$(copy.rn, A$pc, (end-1 - (start+0)) * 4 - 8);
             buffer[start+1] = copy.value;
 
             start += 2;
